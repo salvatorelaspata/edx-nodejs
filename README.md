@@ -10,10 +10,12 @@ LinuxFoundationX LFW111x - Introduction to Node.js
 
 # 1. Quick File Server with Serve dependency
 
+```
 /1-mock-static-server
   /static
     /app.js
     /index.html
+```
 
 ## Install Serve dependency globally
 
@@ -28,11 +30,13 @@ serve -p 5050 static
 
 # 2. Quick File Server Zero-Dependency
 
+```
 /2-mock-zero-dependency
   /server.js
   /static
     /app.js
     /index.html
+```
 
 ## Run
 
@@ -52,12 +56,14 @@ serve -p 5050 static
 
 [Fastify](https://www.fastify.io/)
 
+```
 /3-mock-fastify
   /mock-srv
     (scaffolding create with `npm init fastify`)
   /static
     /app.js
     /index.html
+```
 
 ## Install Fastify dependency
 
@@ -80,15 +86,81 @@ cd 3-mock-fastify/
 serve -p 5050 static
 ```
 
-# 4. Realtime 
+# 4. Realtime
 
 the key concept is Web Socket
+
 - [WebSockets API](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 - [WebSocket Fastify](https://github.com/fastify/fastify-websocket)
 
+```
 /4-realtime
   /mock-srv
     (scaffolding create with `npm init fastify`)
   /static
     /app.js
     /index.html
+```
+
+## Install Fastify dependency
+
+```
+cd 4-realtime/mock-srv
+npm install
+```
+
+## Run
+
+```bash
+cd 4-realtime/mock-srv
+npm start
+```
+
+> The frontend application starting with serve
+
+```bash
+cd 4-realtime/
+serve -p 5050 static
+```
+
+# 4.1 Bidirectional Communication
+
+testing from terminal
+
+```bash
+node -e "http.request('http://localhost:3000/orders/A1', { method: 'POST', headers: {'content-type': 'application/json'}}, (res) => res.pipe(process.stdout)).end(JSON.stringify({amount: 10}))"
+```
+
+> the frontend application retrieve the updated data for the order A1
+
+# 5. Command Line Tool
+
+Create a CLI tool to send request to the server and update the order
+
+```
+/5-cli-tool
+  /mock-srv
+    (scaffolding create with `npm init fastify`)
+  /static
+    /app.js
+    /index.html
+```
+
+## Installing the CLI
+
+```bash
+cd 5-cli
+npm link
+```
+
+## Usage
+
+To use the CLI you need started the server and the frontend application as described in the previous sections.
+Next you can try the cli to automate the update of the order.
+
+```bash
+5-cli <id> <amount>
+
+# Example
+5-cli A1 10
+```
